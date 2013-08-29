@@ -15,12 +15,14 @@
   <xs:element name="dfxml">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="dfxml:metadata" minOccurs="1"/>
-        <xs:element ref="dfxml:creator" minOccurs="1"/>
+        <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dfxml:creator" minOccurs="0"/>
         <xs:element ref="dfxml:source" minOccurs="1"/>
-        <xs:element ref="dfxml:volume" minOccurs="1"/>
-        <xs:element ref="dfxml:fileobject" minOccurs="1"/>
+        <xs:element ref="dfxml:volume" minOccurs="0"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0"/>
       </xs:sequence>
+      <xs:attribute name="catalogDesignDate" type="xs:date" />
+      <xs:attribute name="version" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
 
@@ -28,37 +30,104 @@
 
   <xs:element name="alloc">
   </xs:element>
-  <xs:element name="arch">
-  </xs:element>
+
+  <xs:element name="arch" type="xs:string"/>
+
   <xs:element name="atime">
   </xs:element>
   <xs:element name="block_size">
   </xs:element>
   <xs:element name="block_count">
   </xs:element>
+
   <xs:element name="build_environment">
+    <xs:annotation>
+      <xs:documentation>This element describes how the environment was set when the XML generator was compiled.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="dfxml:compiler" minOccurs="0"/>
+        <xs:element ref="dfxml:compilation_date" minOccurs="0"/>
+        <xs:element ref="dfxml:library" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="byte_run">
   </xs:element>
   <xs:element name="byte_runs">
   </xs:element>
-  <xs:element name="command_line">
+  <xs:element name="command_line" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The command line used to invoke the program.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="compiler">
+
+  <xs:element name="compilation_date" type="xs:dateTime">
+    <xs:annotation>
+      <xs:documentation>The date the program was compiled.</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
+  <xs:element name="compiler" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The compiler if (if any) used to compile the program.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="creator">
+    <xs:annotation>
+      <xs:documentation>This is a block of build environment and execution provenance for the XML file.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="dfxml:program" minOccurs="0"/>
+        <xs:element ref="dfxml:version" minOccurs="0"/>
+        <xs:element ref="dfxml:build_environment" minOccurs="0"/>
+        <xs:element ref="dfxml:execution_environment" minOccurs="0"/>
+        <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:all>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="crtime">
   </xs:element>
   <xs:element name="ctime">
   </xs:element>
+
   <xs:element name="execution_environment">
+    <xs:annotation>
+      <xs:documentation>This is a description of the execution environment when the XML file was generated.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="dfxml:os_sysname" minOccurs="0"/>
+        <xs:element ref="dfxml:os_release" minOccurs="0"/>
+        <xs:element ref="dfxml:os_version" minOccurs="0"/>
+        <xs:element ref="dfxml:host" minOccurs="0"/>
+        <xs:element ref="dfxml:arch" minOccurs="0"/>
+        <xs:element ref="dfxml:command_line" minOccurs="0"/>
+        <xs:element ref="dfxml:uid" minOccurs="0"/>
+        <xs:element ref="dfxml:username" minOccurs="0"/>
+        <xs:element ref="dfxml:start_time" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="filename">
   </xs:element>
+
   <xs:element name="fileobject">
+    <xs:annotation>
+      <xs:documentation>fileobject is the key file element for the standard digital forensic XML. The object encodes one or more sequences of bytes with associated interpted metadata, recording byte-location information when possible.</xs:documentation>
+    </xs:annotation>
+    
   </xs:element>
-  <xs:element name="filesize">
+
+  <xs:element name="filesize" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation>This is the size of the file in bytes.</xs:documentation>
+    </xs:annotation>
   </xs:element>
   <xs:element name="first_block">
   </xs:element>
@@ -70,11 +139,24 @@
   </xs:element>
   <xs:element name="hashdigest">
   </xs:element>
-  <xs:element name="host">
+
+  <xs:element name="host" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The name of the host machine in which the program was executed.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="id">
+
+
+  <xs:element name="id" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>This is a unique identifier for the file.  It is distinct to both the input data and the process parameters of the generating tool.  (That is, it is mostly defined by incrementing a counter in walk-encounter order of each file and directory.)</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="image_filename">
+
+  <xs:element name="image_filename" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>Path (absolute or relative) to the input file.  Note some utilities operate on device files, some on image files, some on other DFXML files.</xs:documentation>
+    </xs:annotation>
   </xs:element>
   <xs:element name="inode">
   </xs:element>
@@ -82,49 +164,134 @@
   </xs:element>
   <xs:element name="libmagic">
   </xs:element>
+
   <xs:element name="library">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="version" type="xs:string"/>
+    </xs:complexType>
   </xs:element>
-  <xs:element name="meta_type">
+
+  <xs:element name="meta_type" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>TODO</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
   <xs:element name="metadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any namespace="http://purl.org/dc/elements/1.1/" />
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="mode">
   </xs:element>
   <xs:element name="mtime">
   </xs:element>
-  <xs:element name="name_type">
+  <xs:element name="name_type"/>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="k"/>
+        <xs:enumeration value="v"/>
+      </xs:restriction>
+    </xs:simpleType>
   </xs:element>
   <xs:element name="nlink">
   </xs:element>
-  <xs:element name="os_release">
+
+  <xs:element name="os_release" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>os_release is the release (reported by uname -r).</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="os_sysname">
+
+  <xs:element name="os_sysname" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>os_sysname is the system name (reported by uname -s).</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="os_version">
+
+  <xs:element name="os_version" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>os_version is the os version (reported by uname -v).</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
   <xs:element name="pagesize">
   </xs:element>
+
+  <xs:element name="parent_object">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="dfxml:inode"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="partition">
   </xs:element>
+
   <xs:element name="partition_offset">
   </xs:element>
-  <xs:element name="program">
+
+  <xs:element name="program" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The name of the XML-generating program.</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
   <xs:element name="sectorsize">
   </xs:element>
   <xs:element name="seq">
   </xs:element>
+
   <xs:element name="source">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="dfxml:image_filename" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
-  <xs:element name="start_time">
+
+  <xs:element name="start_time" type="xs:dateTime">
+    <xs:annotation>
+      <xs:documentation>The date and time that the program was executed.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="uid">
-  </xs:element>
+
+  <xs:element name="uid" type="xs:nonNegativeInteger"/>
+
   <xs:element name="used">
   </xs:element>
-  <xs:element name="version">
+
+  <xs:element name="username" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The username under which the program was executed.</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
+  <xs:element name="version">
+    <xs:annotation>
+      <xs:documentation>The version of the XML-generating program.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="volume">
   </xs:element>
+
+  <!--complexTypes, listed in alphabetical order-->
+
+  <xs:complexType name="dftime">
+    <xs:annotation>
+      <xs:documentation>A general structure to represent a xs:dateTime with the "prec" attribute.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:dateTime">
+        <xs:attribute name="prec" type="xs:nonNegativeInteger"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
 
 </xs:schema>
