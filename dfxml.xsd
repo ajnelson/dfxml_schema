@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:regxml="http://www.forensicswiki.org/wiki/RegXML"
+  targetNamespace="http://www.forensicswiki.org/wiki/RegXML"
+  elementFormDefault="qualified">
+
+  <!--
+  The Dublin Core metadata schema needs to be imported if you want xmllint to validate.
+  Ref: https://mail.gnome.org/archives/xml/2009-November/msg00022.html
+  -->
+  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="dc.xsd"/>
+
+  <xs:element name="dfxml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="dfxml:metadata" minOccurs="1"/>
+        <xs:element ref="dfxml:creator" minOccurs="1"/>
+        <xs:element ref="dfxml:source" minOccurs="1"/>
+        <xs:element ref="dfxml:volume" minOccurs="1"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--All further elements listed in alphabetical order.-->
+
+  <xs:element name="alloc">
+  </xs:element>
+  <xs:element name="arch">
+  </xs:element>
+  <xs:element name="atime">
+  </xs:element>
+  <xs:element name="block_size">
+  </xs:element>
+  <xs:element name="block_count">
+  </xs:element>
+  <xs:element name="build_environment">
+  </xs:element>
+  <xs:element name="byte_run">
+  </xs:element>
+  <xs:element name="byte_runs">
+  </xs:element>
+  <xs:element name="command_line">
+  </xs:element>
+  <xs:element name="compiler">
+  </xs:element>
+  <xs:element name="creator">
+  </xs:element>
+  <xs:element name="crtime">
+  </xs:element>
+  <xs:element name="ctime">
+  </xs:element>
+  <xs:element name="execution_environment">
+  </xs:element>
+  <xs:element name="filename">
+  </xs:element>
+  <xs:element name="fileobject">
+  </xs:element>
+  <xs:element name="filesize">
+  </xs:element>
+  <xs:element name="first_block">
+  </xs:element>
+  <xs:element name="ftype">
+  </xs:element>
+  <xs:element name="ftype_str">
+  </xs:element>
+  <xs:element name="gid">
+  </xs:element>
+  <xs:element name="hashdigest">
+  </xs:element>
+  <xs:element name="host">
+  </xs:element>
+  <xs:element name="id">
+  </xs:element>
+  <xs:element name="image_filename">
+  </xs:element>
+  <xs:element name="inode">
+  </xs:element>
+  <xs:element name="last_block">
+  </xs:element>
+  <xs:element name="libmagic">
+  </xs:element>
+  <xs:element name="library">
+  </xs:element>
+  <xs:element name="meta_type">
+  </xs:element>
+  <xs:element name="metadata">
+  </xs:element>
+  <xs:element name="mode">
+  </xs:element>
+  <xs:element name="mtime">
+  </xs:element>
+  <xs:element name="name_type">
+  </xs:element>
+  <xs:element name="nlink">
+  </xs:element>
+  <xs:element name="os_release">
+  </xs:element>
+  <xs:element name="os_sysname">
+  </xs:element>
+  <xs:element name="os_version">
+  </xs:element>
+  <xs:element name="pagesize">
+  </xs:element>
+  <xs:element name="partition">
+  </xs:element>
+  <xs:element name="partition_offset">
+  </xs:element>
+  <xs:element name="program">
+  </xs:element>
+  <xs:element name="sectorsize">
+  </xs:element>
+  <xs:element name="seq">
+  </xs:element>
+  <xs:element name="source">
+  </xs:element>
+  <xs:element name="start_time">
+  </xs:element>
+  <xs:element name="uid">
+  </xs:element>
+  <xs:element name="used">
+  </xs:element>
+  <xs:element name="version">
+  </xs:element>
+  <xs:element name="volume">
+  </xs:element>
+
+</xs:schema>
