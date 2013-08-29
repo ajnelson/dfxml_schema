@@ -2,8 +2,8 @@
 <xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:regxml="http://www.forensicswiki.org/wiki/RegXML"
-  targetNamespace="http://www.forensicswiki.org/wiki/RegXML"
+  xmlns:dfxml="http://www.forensicswiki.org/wiki/Category:Digital_Forensics_XML"
+  targetNamespace="http://www.forensicswiki.org/wiki/Category:Digital_Forensics_XML"
   elementFormDefault="qualified">
 
   <!--
@@ -28,17 +28,29 @@
 
   <!--All further elements listed in alphabetical order.-->
 
-  <xs:element name="alloc">
+  <xs:element name="alloc" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>This is the SleuthKit ALLOC flag.  "1" implies the file is allocated.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="allocated_only" type="dfxml:bool01">
+    <xs:annotation>
+      <xs:documentation>An indicator that this volume only contains fileobjects for allocated files, not recovered or deleted files.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="arch" type="xs:string"/>
 
-  <xs:element name="atime">
+  <xs:element name="atime" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file was last accesed.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="block_size">
-  </xs:element>
-  <xs:element name="block_count">
-  </xs:element>
+
+  <xs:element name="block_size" type="xs:positiveInteger"/>
+
+  <xs:element name="block_count" type="xs:positiveInteger"/>
 
   <xs:element name="build_environment">
     <xs:annotation>
@@ -54,9 +66,28 @@
   </xs:element>
 
   <xs:element name="byte_run">
+    <xs:annotation>
+      <xs:documentation>A specific location of bytes on a mass storage device.  These are grouped in a byte_runs array.  Child elements are one or more cryptographic hashes of the run's content.  One might use this for sector-level hashes of a file's contents.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="dfxml:hashdigest" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="file_offset" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="fs_offset" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="img_offset" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="len" type="xs:nonNegativeInteger"/>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="byte_runs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="dfxml:byte_run" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
+
   <xs:element name="command_line" type="xs:string">
     <xs:annotation>
       <xs:documentation>The command line used to invoke the program.</xs:documentation>
@@ -80,19 +111,26 @@
       <xs:documentation>This is a block of build environment and execution provenance for the XML file.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:all>
+      <xs:sequence>
         <xs:element ref="dfxml:program" minOccurs="0"/>
         <xs:element ref="dfxml:version" minOccurs="0"/>
         <xs:element ref="dfxml:build_environment" minOccurs="0"/>
         <xs:element ref="dfxml:execution_environment" minOccurs="0"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:all>
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="crtime">
+  <xs:element name="crtime" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file was created.  Sometimes called "Birth time."</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="ctime">
+
+  <xs:element name="ctime" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file metadata were last modified.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="execution_environment">
@@ -114,14 +152,43 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="filename">
+  <xs:element name="filename" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The file name, or full known path of the file relative to the volume root.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="fileobject">
     <xs:annotation>
       <xs:documentation>fileobject is the key file element for the standard digital forensic XML. The object encodes one or more sequences of bytes with associated interpted metadata, recording byte-location information when possible.</xs:documentation>
     </xs:annotation>
-    
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="dfxml:parent_object" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:id" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:filename" minOccurs="1"/>
+        <xs:element ref="dfxml:name_type" maxOccurs="1"/>
+        <xs:element ref="dfxml:meta_type" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:filesize" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dfxml:partition" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:alloc" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:inode" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:uid" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:meta_type" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:mode" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:nlink" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:gid" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:mtime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:atime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:ctime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:crtime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:seq" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
+        <xs:element ref="dfxml:hashdigest" minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="filesize" type="xs:integer">
@@ -129,15 +196,33 @@
       <xs:documentation>This is the size of the file in bytes.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="first_block">
+
+  <xs:element name="first_block" type="xs:positiveInteger">
+    <!--TODO Document this - would it ever be something other than 0?-->
   </xs:element>
-  <xs:element name="ftype">
+
+  <xs:element name="ftype" type="xs:positiveInteger">
+    <!--TODO Document this.-->
   </xs:element>
-  <xs:element name="ftype_str">
+
+  <xs:element name="ftype_str" type="xs:string">
+    <!--TODO Document this.-->
   </xs:element>
-  <xs:element name="gid">
-  </xs:element>
+
+  <xs:element name="gid" type="xs:nonNegativeInteger"/>
+
   <xs:element name="hashdigest">
+    <xs:annotation>
+      <xs:documentation>Represents a cryptographic hash.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="dfxml:hashDigestType"/>
+          <xs:attribute name="base" type="xs:nonNegativeInteger"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
   </xs:element>
 
   <xs:element name="host" type="xs:string">
@@ -158,11 +243,22 @@
       <xs:documentation>Path (absolute or relative) to the input file.  Note some utilities operate on device files, some on image files, some on other DFXML files.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="inode">
+
+  <xs:element name="inode" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <!--TODO Document NTFS and FAT interpretations.-->
+      <xs:documentation>This is the inode number (st_ino from the stat(2) system call).</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="last_block">
+
+  <xs:element name="last_block" type="xs:positiveInteger">
+    <!--TODO document this.  Specify if this is the last 0-based sector of the file system.-->
   </xs:element>
-  <xs:element name="libmagic">
+
+  <xs:element name="libmagic" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>This is the result of running libmagic to identify the file type.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="library">
@@ -172,9 +268,10 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="meta_type" type="xs:string">
+  <xs:element name="meta_type" type="xs:nonNegativeInteger">
     <xs:annotation>
-      <xs:documentation>TODO</xs:documentation>
+      <!--TODO vet values; possibly move this to a TSK namespace-->
+      <xs:documentation>This is a numeric encoding of the NTFS "Attribute Type" reported by The SleuthKit.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -186,19 +283,31 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="mode">
+  <xs:element name="mode" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>File opening mode.  This is the inode mode in POSIX file systems, and an encoding of various NTFS file attributes when created by The SleuthKit libraries.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="mtime">
+
+  <xs:element name="mtime" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file data were last modified.</xs:documentation>
+    </xs:annotation>
   </xs:element>
-  <xs:element name="name_type"/>
+
+  <xs:element name="name_type">
     <xs:simpleType>
       <xs:restriction base="xs:string">
-        <xs:enumeration value="k"/>
-        <xs:enumeration value="v"/>
+        <xs:enumeration value="r"/>
+        <xs:enumeration value="d"/>
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
-  <xs:element name="nlink">
+
+  <xs:element name="nlink" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>The number of hard links to this file's inode.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="os_release" type="xs:string">
@@ -219,9 +328,6 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="pagesize">
-  </xs:element>
-
   <xs:element name="parent_object">
     <xs:complexType>
       <xs:all>
@@ -230,10 +336,16 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="partition">
+  <xs:element name="partition" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>This is the partition where the file is at.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
-  <xs:element name="partition_offset">
+  <xs:element name="partition_offset" type="xs:positiveInteger">
+    <xs:annotation>
+      <xs:documentation>The offset of the partition from the beginning of the image file, in bytes.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="program" type="xs:string">
@@ -242,15 +354,16 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="sectorsize">
-  </xs:element>
-  <xs:element name="seq">
+  <xs:element name="seq" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>This is the NTFS Sequence Number.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="source">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="dfxml:image_filename" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:image_filename" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -261,10 +374,13 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="uid" type="xs:nonNegativeInteger"/>
-
-  <xs:element name="used">
+  <xs:element name="uid" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>Numerical user id.</xs:documentation>
+    </xs:annotation>
   </xs:element>
+
+  <xs:element name="used" type="dfxml:bool01"/>
 
   <xs:element name="username" type="xs:string">
     <xs:annotation>
@@ -279,9 +395,40 @@
   </xs:element>
 
   <xs:element name="volume">
+    <xs:annotation>
+      <xs:documentation>A mass storage system volume, which is defined as a collection of byte blocks that are all the same size.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <!--
+      Note: This must be a sequence to allow for an arbitrary number of fileobjects.
+      Ref: http://www.w3.org/TR/xmlschema-1/#cos-all-limited
+      -->
+      <xs:sequence>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
+        <xs:element ref="dfxml:partition_offset" minOccurs="0"/>
+        <xs:element ref="dfxml:block_size" minOccurs="0"/>
+        <xs:element ref="dfxml:ftype" minOccurs="0"/>
+        <xs:element ref="dfxml:ftype_str" minOccurs="0"/>
+        <xs:element ref="dfxml:block_count" minOccurs="0"/>
+        <xs:element ref="dfxml:first_block" minOccurs="0"/>
+        <xs:element ref="dfxml:last_block" minOccurs="0"/>
+        <xs:element ref="dfxml:allocated_only" minOccurs="0"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
 
   <!--complexTypes, listed in alphabetical order-->
+
+  <xs:simpleType name="bool01">
+    <xs:annotation>
+      <xs:documentation>A 0-or-1 Boolean value.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:complexType name="dftime">
     <xs:annotation>
@@ -293,5 +440,23 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+
+  <xs:simpleType name="hashDigestType">
+    <xs:annotation>
+      <xs:documentation>This is the hash algorithm that applies to this object.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SHA1"/>
+      <xs:enumeration value="SHA256"/>
+      <xs:enumeration value="MD5"/>
+      <xs:enumeration value="MD6"/>
+      <xs:enumeration value="OTHER"/>
+      <xs:enumeration value="sha1"/>
+      <xs:enumeration value="sha256"/>
+      <xs:enumeration value="md5"/>
+      <xs:enumeration value="md6"/>
+      <xs:enumeration value="other"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>
