@@ -175,7 +175,6 @@
         <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:inode" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:uid" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="dfxml:meta_type" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:mode" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:nlink" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:gid" minOccurs="0" maxOccurs="1"/>
