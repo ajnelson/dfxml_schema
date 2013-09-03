@@ -55,6 +55,12 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="bkup_time" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file was last backed up.  (Recorded in HFS+.)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="block_size" type="xs:positiveInteger">
     <xs:annotation>
       <xs:documentation>This is the size of the partition's block unit.  Note that a block is not necessarily a disk sector; FAT and NTFS both use clusters as their blocks.</xs:documentation>
@@ -167,6 +173,12 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="dtime" type="dfxml:dftime">
+    <xs:annotation>
+      <xs:documentation>This is the time the file was recorded as deleted.  (Recorded in Ext2 file systems.)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:element name="execution_environment">
     <xs:annotation>
       <xs:documentation>This is a description of the execution environment when the XML file was generated.</xs:documentation>
@@ -220,6 +232,8 @@
         <xs:element ref="dfxml:crtime" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:seq" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:dtime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:bkup_time" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
         <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
@@ -287,13 +301,14 @@
 
   <xs:element name="inode" type="xs:nonNegativeInteger">
     <xs:annotation>
-      <!--TODO Document NTFS and FAT interpretations.-->
-      <xs:documentation>This is the inode number (st_ino from the stat(2) system call).</xs:documentation>
+      <xs:documentation>This is the inode number (st_ino from the stat(2) system call).  File systems that do not have an "Inode" may use an alternative, distinct identifier.  In The SleuthKit, FAT "Inode" numbers are calculated from the directory entry's block address; NTFS's inodes are the MFT entry address.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <xs:element name="last_block" type="xs:positiveInteger">
-    <!--TODO document this.  Specify if this is the last 0-based sector of the file system.-->
+    <xs:annotation>
+      <xs:documentation>Address of the last block of the file system, relative to the beginning of the partition.  As reported by file system.  Not guaranteed to be in image (for instance, in incomplete disk image).</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="libmagic" type="xs:string">
