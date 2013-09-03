@@ -7,6 +7,12 @@
   elementFormDefault="qualified">
 
   <!--
+    Alternative documentation on elements is available at:
+    * http://www.bitcurator.net/2013/02/06/dfxml-tag-library/
+    * http://wiki.bitcurator.net/index.php?title=Documentation#Guides_and_How-To_Docs ("DFXML tag library")
+  -->
+
+  <!--
   Technical aside:
   The Dublin Core metadata schema needs to be imported if you want xmllint to validate.  To save on validation-step network transmissions, a copy is included alongside this schema, modified to also fetch the XML Schema .xsd file locally.
   Ref: https://mail.gnome.org/archives/xml/2009-November/msg00022.html
@@ -86,7 +92,7 @@
       <xs:attribute name="fill" type="xs:string"/>
       <xs:attribute name="type" type="xs:string">
         <xs:annotation>
-          <xs:documentation>(TODO - observed "resident".  Need to look up this attribute.)</xs:documentation>
+          <xs:documentation>This attribute is used to denote whether the file's contents are resident in the file metadata structure.  The SleuthKit uses this to denote residency in the NTFS MFT entry, using the corresponding flags "TSK_FS_ATTR_RES" to denote a resident file, and "TSK_FS_BLOCK_FLAG_RES" for the data block.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>
