@@ -233,7 +233,9 @@
   </xs:element>
 
   <xs:element name="first_block" type="xs:nonNegativeInteger">
-    <!--TODO Document this - would it ever be something other than 0?-->
+    <xs:annotation>
+      <xs:documentation>Address of first block of the file system.  This appears to be relative to the beginning of the partition; in The SleuthKit's code base, the code "-&gt;first_block" only ever appears on the left-hand side of an assignment statement when "0" is on the right-hand-side.  (That is, this is always 0 in TSK-based results.)</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="ftype" type="xs:positiveInteger">
