@@ -239,11 +239,15 @@
   </xs:element>
 
   <xs:element name="ftype" type="xs:positiveInteger">
-    <!--TODO Document this.-->
+    <xs:annotation>
+      <xs:documentation>A numerical encoding of the file system type.  The SleuthKit uses a custom enumeration of types known to the code base; the Linux source code uses a different enumeration for recognized file systems.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="ftype_str" type="xs:string">
-    <!--TODO Document this.-->
+    <xs:annotation>
+      <xs:documentation>A human-readable string label of the file system type.  Can include annotations, such as using automatic detection to determine the precise type (e.g. leaving it up to the library to distinguish FAT12 from FAT16).</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="gid" type="xs:nonNegativeInteger"/>
