@@ -219,6 +219,8 @@
         <xs:element ref="dfxml:unalloc" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:alloc" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:unused" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:orphan" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:compressed" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:inode" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:meta_type" minOccurs="0" maxOccurs="1"/>
@@ -326,8 +328,12 @@
 
   <xs:element name="meta_type" type="xs:nonNegativeInteger">
     <xs:annotation>
-      <!--TODO vet values; possibly move this to a TSK namespace-->
-      <xs:documentation>This is a numeric encoding of the NTFS "Attribute Type" reported by The SleuthKit.</xs:documentation>
+      <xs:documentation>This is a numeric encoding of the general file type - regular, directory, soft link, etc.  Numeric values are particular to The SleuthKit; the name_type element renders the values to short string representations.</xs:documentation>
+      <!--
+        In the Fiwalk source, there are two ways this element is populated:
+        * If the fs_file->meta struct is non-NULL (typically occurs when the file is discovered with a file system "Metadata" walk, e.g. NTFS's MFT), fs_file->meta->type is used.
+        * If the fs_file->meta struct is NULL (typically occurs when the file is discovered with a file system "name" walk, e.g. NTFS's directory entries), fs_file->name->type is used.
+      -->
     </xs:annotation>
   </xs:element>
 
@@ -352,10 +358,66 @@
   </xs:element>
 
   <xs:element name="name_type">
+    <xs:annotation>
+      <xs:documentation>This is a string representation of the general file type - regular, directory, soft link, etc.</xs:documentation>
+    </xs:annotation>
     <xs:simpleType>
       <xs:restriction base="xs:string">
-        <xs:enumeration value="r"/>
-        <xs:enumeration value="d"/>
+        <xs:enumeration value="-">
+          <xs:annotation>
+            <xs:documentation>Unknown type</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="p">
+          <xs:annotation>
+            <xs:documentation>Named pipe</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="c">
+          <xs:annotation>
+            <xs:documentation>Character device</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="d">
+          <xs:annotation>
+            <xs:documentation>Directory</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="b">
+          <xs:annotation>
+            <xs:documentation>Block device</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="r">
+          <xs:annotation>
+            <xs:documentation>Regular file</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="l">
+          <xs:annotation>
+            <xs:documentation>Symbolic (soft) link</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="s">
+          <xs:annotation>
+            <xs:documentation>Socket</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="h">
+          <xs:annotation>
+            <xs:documentation>Shadow inode (Solaris)</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="w">
+          <xs:annotation>
+            <xs:documentation>Whiteout (OpenBSD)</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
+        <xs:enumeration value="v">
+          <xs:annotation>
+            <xs:documentation>Special (Used in The SleuthKit for added "Virtual" files, e.g. $FAT1)</xs:documentation>
+          </xs:annotation>
+        </xs:enumeration>
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
@@ -363,6 +425,13 @@
   <xs:element name="nlink" type="xs:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>The number of hard links to this file's inode.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="orphan" type="xs:string">
+    <xs:annotation>
+      <!--TODO look up TSK_FS_META_FLAG_ORPHAN-->
+      <xs:documentation></xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -448,7 +517,11 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:element name="unused" type="dfxml:bool01"/>
+  <!--TODO annotate-->
+
   <xs:element name="used" type="dfxml:bool01"/>
+  <!--TODO annotate-->
 
   <xs:element name="username" type="xs:string">
     <xs:annotation>
