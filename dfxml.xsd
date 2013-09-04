@@ -29,7 +29,11 @@
         <xs:element ref="dfxml:fileobject" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="catalogDesignDate" type="xs:date" />
-      <xs:attribute name="version" type="xs:string" use="required"/>
+      <xs:attribute name="version" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>The version of the DFXML schema to which the DFXML file adheres.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
 
