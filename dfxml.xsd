@@ -236,6 +236,7 @@
         <xs:element ref="dfxml:seq" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:dtime" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:bkup_time" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:link_target" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
         <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
@@ -328,6 +329,12 @@
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
     </xs:complexType>
+  </xs:element>
+
+  <xs:element name="link_target" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The file to which a soft link refers.</xs:documentation>
+    </xs:annotation>
   </xs:element>
 
   <xs:element name="meta_type" type="xs:nonNegativeInteger">
