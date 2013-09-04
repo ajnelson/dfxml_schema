@@ -215,7 +215,7 @@
         <xs:element ref="dfxml:partition" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:id" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:name_type" maxOccurs="1"/>
-        <xs:element ref="dfxml:filesize" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dfxml:filesize" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:unalloc" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:alloc" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:used" minOccurs="0" maxOccurs="1"/>
