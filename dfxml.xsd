@@ -190,15 +190,15 @@
     </xs:annotation>
     <xs:complexType>
       <xs:all>
-        <xs:element ref="dfxml:os_sysname" minOccurs="0"/>
-        <xs:element ref="dfxml:os_release" minOccurs="0"/>
-        <xs:element ref="dfxml:os_version" minOccurs="0"/>
-        <xs:element ref="dfxml:host" minOccurs="0"/>
-        <xs:element ref="dfxml:arch" minOccurs="0"/>
-        <xs:element ref="dfxml:command_line" minOccurs="0"/>
-        <xs:element ref="dfxml:uid" minOccurs="0"/>
-        <xs:element ref="dfxml:username" minOccurs="0"/>
-        <xs:element ref="dfxml:start_time" minOccurs="0"/>
+        <xs:element ref="dfxml:os_sysname"/>
+        <xs:element ref="dfxml:os_release"/>
+        <xs:element ref="dfxml:os_version"/>
+        <xs:element ref="dfxml:host"/>
+        <xs:element ref="dfxml:arch"/>
+        <xs:element ref="dfxml:command_line"/>
+        <xs:element ref="dfxml:uid"/>
+        <xs:element ref="dfxml:username"/>
+        <xs:element ref="dfxml:start_time"/>
       </xs:all>
     </xs:complexType>
   </xs:element>
