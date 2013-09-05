@@ -23,10 +23,10 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="dfxml:metadata" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="dfxml:creator" minOccurs="0"/>
-        <xs:element ref="dfxml:source" minOccurs="1"/>
-        <xs:element ref="dfxml:volume" minOccurs="0"/>
-        <xs:element ref="dfxml:fileobject" minOccurs="0"/>
+        <xs:element ref="dfxml:creator" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:source" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="dfxml:volume" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="catalogDesignDate" type="xs:date" />
       <xs:attribute name="version" type="xs:string" use="required">
@@ -79,8 +79,8 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="dfxml:compiler" minOccurs="0"/>
-        <xs:element ref="dfxml:compilation_date" minOccurs="0"/>
+        <xs:element ref="dfxml:compiler" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:compilation_date" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
@@ -142,8 +142,8 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="dfxml:program" minOccurs="0"/>
-        <xs:element ref="dfxml:version" minOccurs="0"/>
+        <xs:element ref="dfxml:program" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dfxml:version" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:build_environment" minOccurs="0"/>
         <xs:element ref="dfxml:execution_environment" minOccurs="0"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
@@ -566,8 +566,8 @@
       Ref: http://www.w3.org/TR/xmlschema-1/#cos-all-limited
       -->
       <xs:sequence>
-        <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
-        <xs:element ref="dfxml:partition_offset" minOccurs="0"/>
+        <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:partition_offset" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:sector_size" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:block_size" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:ftype" minOccurs="0" maxOccurs="1"/>
