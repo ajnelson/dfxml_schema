@@ -6,19 +6,36 @@
   targetNamespace="http://www.forensicswiki.org/wiki/Category:Digital_Forensics_XML"
   elementFormDefault="qualified">
 
-  <!--
-    Alternative documentation on elements is available at:
-    * http://www.bitcurator.net/2013/02/06/dfxml-tag-library/
-    * http://wiki.bitcurator.net/index.php?title=Documentation#Guides_and_How-To_Docs ("DFXML tag library")
-  -->
+  <xs:annotation>
+    <xs:documentation>
+      This is the schema for Digital Forensics XML, version (TO BE DECLARED).
 
-  <!--
-  Technical aside:
-  The Dublin Core metadata schema needs to be imported if you want xmllint to validate.  To save on validation-step network transmissions, a copy is included alongside this schema, modified to also fetch the XML Schema .xsd file locally.
-  Ref: https://mail.gnome.org/archives/xml/2009-November/msg00022.html
-  -->
-  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="dc.xsd"/>
-  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+      To report issues, questions, or feature requests, please either:
+      * File a Github issue at this repository, seeing first if it is already filed: https://github.com/ajnelson/dfxml_schema
+      * Email the dfxml@nist.gov mailing list.
+
+      Alternative documentation on DFXML elements is available at:
+      * http://www.bitcurator.net/2013/02/06/dfxml-tag-library/
+      * http://wiki.bitcurator.net/index.php?title=Documentation#Guides_and_How-To_Docs (See section "DFXML tag library")
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="dc.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        (A technical aside.)  The Dublin Core and XML metadata schema needs to be imported to validate with the 'xmllint' utility.  To save on validation-step network transmissions, a copy is included alongside this schema, modified to also fetch the XML Schema .xsd file locally.
+        Ref: https://mail.gnome.org/archives/xml/2009-November/msg00022.html
+      </xs:documentation>
+    </xs:annotation>
+  </xs:import>
+
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        The schema of XML is itself imported into this document because XML schema imports are not transitive.  This allows usage of special XML attributes, such as xml:lang.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:import>
 
   <xs:element name="dfxml">
     <xs:complexType>
