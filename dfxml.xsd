@@ -8,7 +8,7 @@
 
   <xs:annotation>
     <xs:documentation>
-      This is the schema for Digital Forensics XML, version (TO BE DECLARED).
+      This is the schema for Digital Forensics XML.  The version is recorded in the enumeration "dfxmlSchemaVersion".
 
       To report issues, questions, or feature requests, please either:
       * File a Github issue at this repository, seeing first if it is already filed: https://github.com/ajnelson/dfxml_schema
@@ -37,6 +37,15 @@
     </xs:annotation>
   </xs:import>
 
+  <xs:simpleType name="dfxmlSchemaVersion">
+    <xs:annotation>
+      <xs:documentation>The specific version supported by this schema file.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TO BE DECLARED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:element name="dfxml">
     <xs:complexType>
       <xs:sequence>
@@ -47,7 +56,7 @@
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="catalogDesignDate" type="xs:date" />
-      <xs:attribute name="version" type="xs:string" use="required">
+      <xs:attribute name="version" type="dfxml:dfxmlSchemaVersion" use="required">
         <xs:annotation>
           <xs:documentation>The version of the DFXML schema to which the DFXML file adheres.</xs:documentation>
         </xs:annotation>
