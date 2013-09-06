@@ -20,7 +20,7 @@
     </xs:documentation>
   </xs:annotation>
 
-  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="dc.xsd">
+  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="ref/dc.xsd">
     <xs:annotation>
       <xs:documentation>
         (A technical aside.)  The Dublin Core and XML metadata schema needs to be imported to validate with the 'xmllint' utility.  To save on validation-step network transmissions, a copy is included alongside this schema, modified to also fetch the XML Schema .xsd file locally.
@@ -29,7 +29,7 @@
     </xs:annotation>
   </xs:import>
 
-  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ref/xml.xsd">
     <xs:annotation>
       <xs:documentation>
         The schema of XML is itself imported into this document because XML schema imports are not transitive.  This allows usage of special XML attributes, such as xml:lang.
