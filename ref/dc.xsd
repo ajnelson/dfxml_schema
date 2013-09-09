@@ -38,9 +38,9 @@
   </xs:annotation>
 
 
+  <!--AJN Modification to schema:  schemaLocation set to local copy of xml.xsd.-->
   <xs:import namespace="http://www.w3.org/XML/1998/namespace"
              schemaLocation="xml.xsd">
-             <!--schemaLocation="http://www.w3.org/2005/08/xml.xsd">-->
   </xs:import>
 
   <xs:complexType name="SimpleLiteral">
