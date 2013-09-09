@@ -360,11 +360,6 @@
   <xs:element name="meta_type" type="xs:nonNegativeInteger">
     <xs:annotation>
       <xs:documentation>A numeric encoding of the general file type - regular, directory, soft link, etc.  Numeric values are particular to The SleuthKit; the name_type element renders the values to short string representations.</xs:documentation>
-      <!--
-        In the Fiwalk source, there are two ways this element is populated:
-        * If the fs_file->meta struct is non-NULL (typically occurs when the file is discovered with a file system "Metadata" walk, e.g. NTFS's MFT), fs_file->meta->type is used.
-        * If the fs_file->meta struct is NULL (typically occurs when the file is discovered with a file system "name" walk, e.g. NTFS's directory entries), fs_file->name->type is used.
-      -->
     </xs:annotation>
   </xs:element>
 
