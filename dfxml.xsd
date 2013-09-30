@@ -55,6 +55,7 @@
           <xs:documentation>The version of the DFXML schema to which the DFXML file adheres.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -104,6 +105,7 @@
         <xs:element ref="dfxml:compilation_date" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:library" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -126,6 +128,7 @@
           <xs:documentation>This attribute is used to denote whether the file's contents are resident in the file metadata structure.  The SleuthKit uses this to denote residency in the NTFS MFT entry, using the corresponding flags "TSK_FS_ATTR_RES" to denote a resident file, and "TSK_FS_BLOCK_FLAG_RES" for the data block.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -134,6 +137,7 @@
       <xs:sequence>
         <xs:element ref="dfxml:byte_run" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -174,6 +178,7 @@
           <xs:documentation>(It is unclear why there is another version attribute here.)</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -217,6 +222,7 @@
         <xs:element ref="dfxml:username" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="dfxml:start_time" minOccurs="0" maxOccurs="1"/>
       </xs:all>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -227,7 +233,7 @@
     <xs:complexType>
       <xs:simpleContent>
         <xs:extension base="xs:string">
-          <xs:attribute ref="xml:lang"/>
+          <xs:anyAttribute namespace="##other" processContents="lax"/>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -370,6 +376,7 @@
     <xs:complexType>
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -505,6 +512,7 @@
       <xs:all>
         <xs:element ref="dfxml:inode"/>
       </xs:all>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -543,6 +551,7 @@
         <xs:element name="oublock" type="xs:integer" minOccurs="1" maxOccurs="1"/>
         <xs:element name="clocktime" type="xs:float" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
@@ -563,6 +572,7 @@
       <xs:sequence>
         <xs:element ref="dfxml:image_filename" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
 
