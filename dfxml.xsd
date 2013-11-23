@@ -156,6 +156,7 @@
     </xs:annotation>
   </xs:element>
 
+  <!--TODO Is this file system level compression?  I've seen Fiwalk skip outputting a regular byte run len when this is set to 1.-->
   <xs:element name="compressed" type="dfxml:bool01"/>
 
   <xs:element name="creator">
