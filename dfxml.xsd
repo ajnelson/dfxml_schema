@@ -160,7 +160,7 @@
                 <xs:documentation>The location of content of the file, i.e. what would normally be hashed.  Note that in NTFS, this is the content of the default, unnamed data stream; alternate data streams are represented elsewhere.  Also note that this is not currently defined for directories.</xs:documentation>
               </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="meta">
+            <xs:enumeration value="inode">
               <xs:annotation>
                 <xs:documentation>The location of the file reference's inode or inode-like entry.  Note that in NTFS, this is the content of the MFT entry and its non-resident attributes.</xs:documentation>
               </xs:annotation>
