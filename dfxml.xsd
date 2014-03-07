@@ -146,6 +146,33 @@
       <xs:sequence>
         <xs:element ref="dfxml:byte_run" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:attribute name="facet">
+        <xs:annotation>
+          <xs:documentation>The facet of this file instance - data, metadata (the inode), or name (the directory entry that references the inode).</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:annotation>
+            <xs:documentation>Up to three facets are present for each file reference encountered in a file system: the content; the inode; and the directory entry that references that inode.  If no facets are denoted, and only one byte_runs element is present, that byte_runs element should be considered the "data" facet.</xs:documentation>
+          </xs:annotation>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="data">
+              <xs:annotation>
+                <xs:documentation>The location of content of the file, i.e. what would normally be hashed.  Note that in NTFS, this is the content of the default, unnamed data stream; alternate data streams are represented elsewhere.  Also note that this is not currently defined for directories.</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="meta">
+              <xs:annotation>
+                <xs:documentation>The location of the file reference's inode or inode-like entry.  Note that in NTFS, this is the content of the MFT entry and its non-resident attributes.</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="name">
+              <xs:annotation>
+                <xs:documentation>The location of the file reference's name data structure -- that is, directory entry.</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
     </xs:complexType>
   </xs:element>
@@ -282,7 +309,7 @@
       <xs:element ref="dfxml:link_target" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="dfxml:libmagic" minOccurs="0" maxOccurs="1"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element ref="dfxml:byte_runs" minOccurs="0"/>
+      <xs:element ref="dfxml:byte_runs" minOccurs="0" maxOccurs="3"/>
       <xs:element ref="dfxml:hashdigest" minOccurs="0" maxOccurs="unbounded"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
