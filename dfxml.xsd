@@ -567,7 +567,7 @@
 
   <xs:element name="uid" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>The user id that owns a file.  Numeric in POSIX file systems, but a string in NTFS.</xs:documentation>
+      <xs:documentation>The user id that owns a file.  Numeric in POSIX file systems, but a string for SIDs in NTFS.  For SID reference, see: http://www.ntfs.com/ntfs-permissions-security-identifier.htm.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
