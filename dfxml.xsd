@@ -8,7 +8,7 @@
 
   <xs:annotation>
     <xs:documentation>
-      This is the schema for Digital Forensics XML, version 1.1.0.
+      This is the schema for Digital Forensics XML, version 1.1.1.
 
       To report issues, questions, or feature requests, please either:
       * File a Github issue at this repository, seeing first if it is already filed: https://github.com/dfxml-working-group/dfxml_schema
@@ -212,7 +212,7 @@
       </xs:sequence>
       <xs:attribute name="version" type="xs:string">
         <xs:annotation>
-          <xs:documentation>(It is unclear why there is another version attribute here.)</xs:documentation>
+          <xs:documentation>DEPRECATED.  Will be removed in DFXML v1.2.0.</xs:documentation>
         </xs:annotation>
       </xs:attribute>
       <xs:anyAttribute namespace="##other" processContents="lax"/>
@@ -348,13 +348,17 @@
 
   <xs:element name="hashdigest">
     <xs:annotation>
-      <xs:documentation>A cryptographic hash.</xs:documentation>
+      <xs:documentation>A cryptographic hash, printed in base 16 by default.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:simpleContent>
         <xs:extension base="dfxml:string">
           <xs:attribute name="type" type="dfxml:hashDigestType"/>
-          <xs:attribute name="base" type="xs:nonNegativeInteger"/>
+          <xs:attribute name="base" type="xs:nonNegativeInteger">
+            <xs:annotation>
+              <xs:documentation>DEPRECATED.  No known users of this element, and little gain seen to its use.  Will be removed in 1.2.0.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -398,6 +402,9 @@
   </xs:element>
 
   <xs:element name="library">
+    <xs:annotation>
+      <xs:documentation>This element can be a child of the build_environment element, or the creator element.  If this element is a child of build_environment, the element is about the program as it was built.  If it's a child of creator, the library is about the program as it was run.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:attribute name="name" type="xs:string"/>
       <xs:attribute name="version" type="xs:string"/>
@@ -418,9 +425,14 @@
   </xs:element>
 
   <xs:element name="metadata">
+    <xs:annotation>
+      <xs:documentation>Document metadata not already defined by DFXML structures.  Originally, Dublin Core was the only expected namespace.  Other metadata not best expressed with Dublin Core can be brought in under their own namespaces, but only Dublin Core will be checked for valid structure.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:any namespace="http://purl.org/dc/elements/1.1/" />
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+        <xs:any namespace="http://purl.org/dc/elements/1.1/" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -533,6 +545,9 @@
   </xs:element>
 
   <xs:element name="parent_object">
+    <xs:annotation>
+      <xs:documentation>A container for an element referencing the parent of this fileobject.  The inode child specified here would contain the inode number of the parent directory.  The root directory of a file system should not have a parent fileobject.</xs:documentation>
+    </xs:annotation>
     <xs:complexType>
       <xs:all>
         <xs:element ref="dfxml:inode"/>
@@ -609,7 +624,7 @@
 
   <xs:element name="uid" type="dfxml:string">
     <xs:annotation>
-      <xs:documentation>The user id that owns a file.  Numeric in POSIX file systems, but a string in NTFS.</xs:documentation>
+      <xs:documentation>The user id that owns a file.  Numeric in POSIX file systems, but a string for SIDs in NTFS.  For SID reference, see: http://www.ntfs.com/ntfs-permissions-security-identifier.htm.</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -663,6 +678,7 @@
         <xs:element ref="dfxml:allocated_only" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element ref="dfxml:fileobject" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="dfxml:error" minOccurs="0" maxOccurs="1"/>
         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="offset" type="xs:nonNegativeInteger"/>
